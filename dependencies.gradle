@@ -1,0 +1,76 @@
+ext {
+    compileSdkVersion = 26
+    minSdkVersion = 21
+    targetSdkVersion = 26
+    buildToolsVersion = '26.0.1'
+    kotlinVersion = '1.1.4-3'
+    kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+    def supportVersion = '26.0.0-alpha1'
+    def constraintLayoutVersion = '1.0.2'
+
+    def retrofitVersion = '2.3.0'
+    def daggerVersion = '2.11'
+    def junitVersion = '4.12'
+    def groovyVersion = '2.4.11'
+    def spockVersion = '1.1-groovy-2.4'
+    def objenesisVersion = '2.2'
+    def nodepVersion = '3.2.2'
+    def espressoVersion = '2.2.2'
+
+
+    def androidLibs = [
+            appCompat       : [group: 'com.android.support', name: 'appcompat-v7', version: supportVersion],
+            constraintLayout: [group: 'com.android.support.constraint', name: 'constraint-layout', version: constraintLayoutVersion]
+    ]
+
+    def libs = [
+            kotlin               : [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlinVersion],
+            dagger               : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
+            daggerCompiler       : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
+            retrofit             : [group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion],
+            retrofitAdapter      : [group: 'com.squareup.retrofit2', name: 'adapter-rxjava', version: retrofitVersion],
+            retrofitGsonConverter: [group: 'com.squareup.retrofit2', name: 'converter-gson', version: retrofitVersion]
+    ]
+
+    def testLibs = [
+            junit        : [group: 'junit', name: 'junit', version: junitVersion],
+            groovy       : [group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion, classifier: 'grooid'],
+            spock        : [group: 'org.spockframework', name: 'spock-core', version: spockVersion],
+            objenesis    : [group: 'org.objenesis', name: 'objenesis', version: objenesisVersion],
+            nodep        : [group: 'cglib', name: 'cglib-nodep', version: nodepVersion],
+            esspressoCore: [group: 'com.android.support.test.espresso', name: 'espresso-core', version: espressoVersion]
+    ]
+
+    def supportAnnotationsExclude = {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    appModuleDependencies = [
+            [configuration: 'compile', dependency: androidLibs.appCompat],
+            [configuration: 'compile', dependency: androidLibs.constraintLayout],
+            [configuration: 'compile', dependency: libs.kotlin],
+            [configuration: 'compile', dependency: libs.dagger],
+            [configuration: 'kapt', dependency: libs.daggerCompiler],
+            [configuration: 'compile', dependency: libs.retrofit],
+            [configuration: 'compile', dependency: libs.retrofitAdapter],
+            [configuration: 'compile', dependency: libs.retrofitGsonConverter],
+
+            [configuration: 'testCompile', dependency: testLibs.junit],
+            [configuration: 'testCompile', dependency: testLibs.groovy],
+            [configuration: 'testCompile', dependency: testLibs.spock],
+            [configuration: 'testCompile', dependency: testLibs.objenesis],
+            [configuration: 'testCompile', dependency: testLibs.nodep],
+
+            [configuration: 'androidTestCompile', dependency: testLibs.esspressoCore, options: supportAnnotationsExclude]
+    ]
+
+    def plugins = [
+            kotlin: 'kotlin-android',
+            groovy: 'groovyx.android'
+    ]
+
+    appModulePlugins = [
+            plugins.kotlin, plugins.groovy
+    ]
+}
