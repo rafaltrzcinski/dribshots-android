@@ -17,20 +17,27 @@ ext {
     def objenesisVersion = '2.2'
     def nodepVersion = '3.2.2'
     def espressoVersion = '2.2.2'
+    def multidexVersion = '1.0.1'
+    def okHttpVersion = '3.9.0'
+    def rxVersion = '2.0.1'
 
 
     def androidLibs = [
             appCompat       : [group: 'com.android.support', name: 'appcompat-v7', version: supportVersion],
-            constraintLayout: [group: 'com.android.support.constraint', name: 'constraint-layout', version: constraintLayoutVersion]
+            constraintLayout: [group: 'com.android.support.constraint', name: 'constraint-layout', version: constraintLayoutVersion],
+            multidex        : [group: 'com.android.support', name: 'multidex', version: multidexVersion]
     ]
 
     def libs = [
-            kotlin               : [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlinVersion],
-            dagger               : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
-            daggerCompiler       : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
-            retrofit             : [group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion],
-            retrofitAdapter      : [group: 'com.squareup.retrofit2', name: 'adapter-rxjava', version: retrofitVersion],
-            retrofitGsonConverter: [group: 'com.squareup.retrofit2', name: 'converter-gson', version: retrofitVersion]
+            kotlin                  : [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlinVersion],
+            dagger                  : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
+            daggerCompiler          : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
+            retrofit                : [group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion],
+            retrofitAdapter         : [group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: retrofitVersion],
+            retrofitGsonConverter   : [group: 'com.squareup.retrofit2', name: 'converter-gson', version: retrofitVersion],
+            okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: okHttpVersion],
+            okhttpLoggingInterceptor: [group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: okHttpVersion],
+            rxandroid               : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxVersion]
     ]
 
     def testLibs = [
@@ -45,16 +52,19 @@ ext {
     def supportAnnotationsExclude = {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
     appModuleDependencies = [
             [configuration: 'compile', dependency: androidLibs.appCompat],
             [configuration: 'compile', dependency: androidLibs.constraintLayout],
+            [configuration: 'compile', dependency: androidLibs.multidex],
             [configuration: 'compile', dependency: libs.kotlin],
             [configuration: 'compile', dependency: libs.dagger],
             [configuration: 'kapt', dependency: libs.daggerCompiler],
             [configuration: 'compile', dependency: libs.retrofit],
             [configuration: 'compile', dependency: libs.retrofitAdapter],
             [configuration: 'compile', dependency: libs.retrofitGsonConverter],
+            [configuration: 'compile', dependency: libs.okhttp],
+            [configuration: 'compile', dependency: libs.okhttpLoggingInterceptor],
+            [configuration: 'compile', dependency: libs.rxandroid],
 
             [configuration: 'testCompile', dependency: testLibs.junit],
             [configuration: 'testCompile', dependency: testLibs.groovy],
@@ -65,12 +75,14 @@ ext {
             [configuration: 'androidTestCompile', dependency: testLibs.esspressoCore, options: supportAnnotationsExclude]
     ]
 
+
     def plugins = [
             kotlin: 'kotlin-android',
+            kapt  : 'kotlin-kapt',
             groovy: 'groovyx.android'
     ]
 
     appModulePlugins = [
-            plugins.kotlin, plugins.groovy
+            plugins.kotlin, plugins.kapt, plugins.groovy
     ]
 }
