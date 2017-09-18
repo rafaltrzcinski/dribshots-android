@@ -3,11 +3,11 @@ package com.rafaltrzcinski.dribshots.shots.list
 import android.app.FragmentTransaction
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
-import android.text.Html
 import com.rafaltrzcinski.dribshots.R
 import com.rafaltrzcinski.dribshots.databinding.ActivityShotsBinding
 import com.rafaltrzcinski.dribshots.di.Injector
@@ -25,16 +25,23 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
     )
 
     private val shotsAdapter = ShotsAdapter(presenter)
+    private var swipeLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityShotsBinding>(this, R.layout.activity_shots)
+
+        initSwipeRefresh(binding)
         initToolbar(binding)
-        val gridLayoutManager = initLayoutManager()
-        initRecyclerView(binding, gridLayoutManager)
+        initRecyclerView(binding, initLayoutManager())
 
         presenter.bind(this)
         presenter.getShots()
+    }
+
+    private fun initSwipeRefresh(binding: ActivityShotsBinding) {
+        swipeLayout = binding.swipeLayout
+        swipeLayout?.setOnRefreshListener { presenter.getShots() }
     }
 
     private fun initToolbar(binding: ActivityShotsBinding) {
@@ -82,6 +89,10 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
                 addToBackStack(null)
             }.commit()
         }
+    }
+
+    override fun finishLoading() {
+        swipeLayout?.isRefreshing = false
     }
 }
 

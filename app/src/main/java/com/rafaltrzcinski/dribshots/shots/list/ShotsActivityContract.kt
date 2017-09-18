@@ -8,6 +8,7 @@ interface ShotsActivityContract {
         fun loadShots(shots: List<Shot>)
         fun showLoadingError()
         fun attachShotDetails(shot: Shot)
+        fun finishLoading()
     }
 
     interface Presenter {
