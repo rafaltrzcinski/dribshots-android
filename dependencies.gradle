@@ -6,7 +6,7 @@ ext {
     kotlinVersion = '1.1.4-3'
     kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
-    def supportVersion = '26.0.0-alpha1'
+    def supportVersion = '26.1.0'
     def constraintLayoutVersion = '1.0.2'
 
     def retrofitVersion = '2.3.0'
@@ -20,12 +20,17 @@ ext {
     def multidexVersion = '1.0.1'
     def okHttpVersion = '3.9.0'
     def rxVersion = '2.0.1'
+    def dataBindingCompilerVersion = '2.3.0'
+    def glideVersion = '3.7.0'
 
 
     def androidLibs = [
-            appCompat       : [group: 'com.android.support', name: 'appcompat-v7', version: supportVersion],
-            constraintLayout: [group: 'com.android.support.constraint', name: 'constraint-layout', version: constraintLayoutVersion],
-            multidex        : [group: 'com.android.support', name: 'multidex', version: multidexVersion]
+            appCompat          : [group: 'com.android.support', name: 'appcompat-v7', version: supportVersion],
+            constraintLayout   : [group: 'com.android.support.constraint', name: 'constraint-layout', version: constraintLayoutVersion],
+            multidex           : [group: 'com.android.support', name: 'multidex', version: multidexVersion],
+            databindingCompiler: [group: 'com.android.databinding', name: 'compiler', version: dataBindingCompilerVersion],
+            design             : [group: 'com.android.support', name: 'design', version: supportVersion],
+            cardView           : [group: 'com.android.support', name: 'cardview-v7', version: supportVersion]
     ]
 
     def libs = [
@@ -37,7 +42,8 @@ ext {
             retrofitGsonConverter   : [group: 'com.squareup.retrofit2', name: 'converter-gson', version: retrofitVersion],
             okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: okHttpVersion],
             okhttpLoggingInterceptor: [group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: okHttpVersion],
-            rxandroid               : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxVersion]
+            rxandroid               : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxVersion],
+            glide                   : [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion]
     ]
 
     def testLibs = [
@@ -56,15 +62,20 @@ ext {
             [configuration: 'compile', dependency: androidLibs.appCompat],
             [configuration: 'compile', dependency: androidLibs.constraintLayout],
             [configuration: 'compile', dependency: androidLibs.multidex],
+            [configuration: 'compile', dependency: androidLibs.design],
+            [configuration: 'compile', dependency: androidLibs.cardView],
+            [configuration: 'kapt', dependency: androidLibs.databindingCompiler],
+
             [configuration: 'compile', dependency: libs.kotlin],
             [configuration: 'compile', dependency: libs.dagger],
-            [configuration: 'kapt', dependency: libs.daggerCompiler],
             [configuration: 'compile', dependency: libs.retrofit],
             [configuration: 'compile', dependency: libs.retrofitAdapter],
             [configuration: 'compile', dependency: libs.retrofitGsonConverter],
             [configuration: 'compile', dependency: libs.okhttp],
             [configuration: 'compile', dependency: libs.okhttpLoggingInterceptor],
             [configuration: 'compile', dependency: libs.rxandroid],
+            [configuration: 'compile', dependency: libs.glide],
+            [configuration: 'kapt', dependency: libs.daggerCompiler],
 
             [configuration: 'testCompile', dependency: testLibs.junit],
             [configuration: 'testCompile', dependency: testLibs.groovy],
