@@ -1,10 +1,8 @@
-package com.rafaltrzcinski.dribshots.shots
+package com.rafaltrzcinski.dribshots.shots.list
 
 import com.rafaltrzcinski.dribshots.rest.api.ApiRequests
 import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
-import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
-import com.rafaltrzcinski.dribshots.shots.list.ShotsPresenter
 import io.reactivex.Flowable
 import io.reactivex.schedulers.TestScheduler
 import spock.lang.Specification
@@ -17,6 +15,10 @@ class ShotsPresenterSpec extends Specification {
     def apiRequests = Mock(ApiRequests)
     def subscribeOn = new TestScheduler()
     def observeOn = new TestScheduler()
+
+    def images = new Images("hidpi", "normal", "teaser")
+    def shot1 = new Shot(1, "title1", "description 1", images)
+    def shot2 = new Shot(2, "title2", "description 2", images)
 
 
     def "setup"() {
@@ -50,11 +52,6 @@ class ShotsPresenterSpec extends Specification {
         presenter.view = view
 
         and:
-        def images = new Images("hidpi", "normal", "teaser")
-        def shot1 = new Shot(1, "title1", "description 1", images)
-        def shot2 = new Shot(2, "title2", "description 2", images)
-
-        and:
         apiRequests.getShots() >> Flowable.just([shot1, shot2])
 
         when:
@@ -68,7 +65,7 @@ class ShotsPresenterSpec extends Specification {
         1 * view.loadShots([shot1, shot2])
     }
 
-    def "should show connection error dialog on error call"() {
+    def "should show connection error dialog on error call and finish loading"() {
         given:
         presenter.view = view
 
@@ -84,21 +81,40 @@ class ShotsPresenterSpec extends Specification {
 
         then:
         1 * view.showLoadingError()
+        1 * view.finishLoading()
     }
 
     def "should attach shot fragment details view"() {
         given:
         presenter.view = view
 
-        and:
-        def images = new Images("hidpi", "normal", "teaser")
-        def shot = new Shot(1, "title1", "description 1", images)
-
         when:
-        presenter.openShotDetails(shot)
+        presenter.openShotDetails(shot1)
 
         then:
-        1 * view.attachShotDetails(shot)
+        1 * view.attachShotDetails(shot1)
+    }
 
+    def "should composite subscription be empty on start"() {
+        expect:
+        presenter.compositeDisposable.size() == 0
+    }
+
+    def "should add subscription to composite disposable after get shots"() {
+        given:
+        assert presenter.compositeDisposable.size() == 0
+
+        and:
+        apiRequests.getShots() >> Flowable.just([shot1, shot2])
+
+        when:
+        presenter.getShots()
+
+        and:
+        subscribeOn.triggerActions()
+        observeOn.triggerActions()
+
+        then:
+        presenter.compositeDisposable.size() == 1
     }
 }
