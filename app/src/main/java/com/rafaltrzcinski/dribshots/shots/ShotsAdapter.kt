@@ -27,21 +27,13 @@ class ShotsAdapter : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
 
         val layoutParams = itemBinding?.shotCard?.layoutParams
 
-//        val randomWidth = Random().nextInt(400 + 1 - 300) + 300
-
-
         if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
             layoutParams.apply {
                 height = if (position != 0) 350 else 400
-//                width = randomWidth
-//                height = 350
             }
         }
 
         itemBinding?.viewModel = ShotViewModel(items[position])
-
-
-
     }
 
     override fun getItemCount() = items.size
