@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBg">#2f2f2f</color>
+    <color name="colorBgFragment">#cc2f2f2f</color>
     <color name="colorLine">#C73052</color>
 </resources>

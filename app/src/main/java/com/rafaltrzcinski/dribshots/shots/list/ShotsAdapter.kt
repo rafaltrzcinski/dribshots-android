@@ -1,4 +1,4 @@
-package com.rafaltrzcinski.dribshots.shots
+package com.rafaltrzcinski.dribshots.shots.list
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
@@ -11,7 +11,7 @@ import com.rafaltrzcinski.dribshots.databinding.ItemShotBinding
 import com.rafaltrzcinski.dribshots.rest.model.Shot
 import java.util.*
 
-class ShotsAdapter : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
+class ShotsAdapter(private val presenter: ShotsActivityContract.Presenter) : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
 
     private var items: ArrayList<Shot> = arrayListOf()
 
@@ -33,7 +33,7 @@ class ShotsAdapter : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
             }
         }
 
-        itemBinding?.viewModel = ShotViewModel(items[position])
+        itemBinding?.viewModel = ShotViewModel(items[position], presenter)
     }
 
     override fun getItemCount() = items.size

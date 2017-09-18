@@ -46,3 +46,12 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.google.com' }
 }
+
+// Groovy plugins is not working with DataBinding class generator.
+// Groovy is used only for tests so there is no harm to just disable some tasks from build chain.
+afterEvaluate {
+    tasks.findAll { it.name.endsWith("Groovyc") }.findAll { !it.name.contains("Unit") }.each {
+        println "Disabling " + it
+        it.enabled = false
+    }
+}

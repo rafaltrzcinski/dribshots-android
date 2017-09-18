@@ -2,6 +2,7 @@ package com.rafaltrzcinski.dribshots.shots
 
 import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
+import com.rafaltrzcinski.dribshots.shots.list.ShotViewModel
 import spock.lang.Specification
 
 class ShotsViewModelSpec extends Specification {

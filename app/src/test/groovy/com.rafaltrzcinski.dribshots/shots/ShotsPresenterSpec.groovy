@@ -3,6 +3,8 @@ package com.rafaltrzcinski.dribshots.shots
 import com.rafaltrzcinski.dribshots.rest.api.ApiRequests
 import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
+import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
+import com.rafaltrzcinski.dribshots.shots.list.ShotsPresenter
 import io.reactivex.Flowable
 import io.reactivex.schedulers.TestScheduler
 import spock.lang.Specification
@@ -82,5 +84,21 @@ class ShotsPresenterSpec extends Specification {
 
         then:
         1 * view.showLoadingError()
+    }
+
+    def "should attach shot fragment details view"() {
+        given:
+        presenter.view = view
+
+        and:
+        def images = new Images("hidpi", "normal", "teaser")
+        def shot = new Shot(1, "title1", "description 1", images)
+
+        when:
+        presenter.openShotDetails(shot)
+
+        then:
+        1 * view.attachShotDetails(shot)
+
     }
 }

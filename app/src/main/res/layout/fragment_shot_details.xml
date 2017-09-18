@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.Html" />
+
+        <variable
+            name="viewModel"
+            type="com.rafaltrzcinski.dribshots.shots.details.ShotDetailsViewModel" />
+
+    </data>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="@color/colorBgFragment">
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/shot_details_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    app:shotImage="@{viewModel.image}"
+                    tools:src="@drawable/ic_dribble" />
+
+                <TextView
+                    android:id="@+id/shot_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{viewModel.title}"
+                    tools:text="DETAILS" />
+
+                <TextView
+                    android:id="@+id/shot_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:text='@{Html.fromHtml(viewModel.description)}'
+                    tools:text="Longer description of shot goes here" />
+            </LinearLayout>
+        </ScrollView>
+
+</layout>

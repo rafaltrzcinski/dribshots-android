@@ -1,6 +1,7 @@
-package com.rafaltrzcinski.dribshots.shots
+package com.rafaltrzcinski.dribshots.shots.list
 
 import com.rafaltrzcinski.dribshots.rest.api.ApiRequests
+import com.rafaltrzcinski.dribshots.rest.model.Shot
 import io.reactivex.Scheduler
 
 class ShotsPresenter(
@@ -27,5 +28,9 @@ class ShotsPresenter(
                         { shots -> view?.loadShots(shots) },
                         { view?.showLoadingError() }
                 )
+    }
+
+    override fun openShotDetails(shot: Shot) {
+        view?.attachShotDetails(shot)
     }
 }

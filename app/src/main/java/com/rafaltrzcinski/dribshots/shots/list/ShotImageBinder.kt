@@ -1,4 +1,4 @@
-package com.rafaltrzcinski.dribshots.shots
+package com.rafaltrzcinski.dribshots.shots.list
 
 import android.databinding.BindingAdapter
 import android.widget.ImageView
@@ -11,11 +11,15 @@ open class ShotImageBinder {
         @JvmStatic
         @BindingAdapter("shotImage")
         fun setShotImage(imageView: ImageView, imageUrl: String) {
-            val context = imageView.context
-
-            Glide.with(context)
+            Glide.with(imageView.context)
                     .load(imageUrl)
                     .into(imageView)
+        }
+
+        @JvmStatic
+        @BindingAdapter("authorAvatar")
+        fun setAuthorAvatar(imageView: ImageView, imageUrl: String) {
+
         }
     }
 }
