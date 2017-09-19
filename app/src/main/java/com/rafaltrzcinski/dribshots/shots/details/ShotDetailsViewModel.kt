@@ -3,8 +3,9 @@ package com.rafaltrzcinski.dribshots.shots.details
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.rafaltrzcinski.dribshots.rest.model.Shot
+import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
 
-class ShotDetailsViewModel(private val shot: Shot) : BaseObservable() {
+class ShotDetailsViewModel(private val shot: Shot, private val presenter: ShotsActivityContract.Presenter) : BaseObservable() {
 
     @Bindable
     fun getImage() = shot.images.normal
@@ -35,4 +36,6 @@ class ShotDetailsViewModel(private val shot: Shot) : BaseObservable() {
 
     @Bindable
     fun getComments() = "${shot.commentsCount}"
+
+    fun hideDetails() = presenter.hideShotDetails()
 }

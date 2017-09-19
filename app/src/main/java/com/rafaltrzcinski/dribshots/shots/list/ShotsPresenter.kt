@@ -98,4 +98,8 @@ class ShotsPresenter(
             return ""
         }
     }
+
+    override fun hideShotDetails() {
+        view?.detachShotDetails()
+    }
 }

@@ -12,6 +12,7 @@ interface ShotsActivityContract {
         fun attachShotDetails(shot: Shot)
         fun startLoading()
         fun finishLoading()
+        fun detachShotDetails()
     }
 
     interface Presenter {
@@ -22,5 +23,6 @@ interface ShotsActivityContract {
         fun openShotDetails(shot: Shot)
         fun getNextUrlFromLinkHeader(linkHeader: String?): String
         fun setCurrentNextLink(headers: Headers?)
+        fun hideShotDetails()
     }
 }

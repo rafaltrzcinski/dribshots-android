@@ -103,12 +103,14 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
                         R.animator.shot_flip_left_in,
                         R.animator.shot_flip_left_out
                 )
-                replace(R.id.fragment_frame, ShotDetailsFragment(shot))
+                replace(R.id.fragment_frame, ShotDetailsFragment(shot, presenter))
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 addToBackStack(null)
             }.commit()
         }
     }
+
+    override fun detachShotDetails() = fragmentManager.popBackStack()
 
     override fun startLoading() {
         swipeLayout?.isRefreshing = true
