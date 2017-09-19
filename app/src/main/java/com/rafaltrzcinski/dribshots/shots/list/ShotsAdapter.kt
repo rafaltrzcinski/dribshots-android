@@ -44,6 +44,11 @@ class ShotsAdapter(private val presenter: ShotsActivityContract.Presenter) : Rec
         notifyDataSetChanged()
     }
 
+    fun addNextItems(shots: List<Shot>) {
+        items.addAll(shots)
+        notifyDataSetChanged()
+    }
+
 
     class ShotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

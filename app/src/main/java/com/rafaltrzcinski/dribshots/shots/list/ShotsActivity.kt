@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import com.rafaltrzcinski.dribshots.R
@@ -51,19 +52,37 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
         }
     }
 
-    private fun initRecyclerView(binding: ActivityShotsBinding, gridLayoutManager: StaggeredGridLayoutManager) =
-            binding.shotsRecycler.apply {
-                layoutManager = gridLayoutManager
-                adapter = shotsAdapter
+    private fun initRecyclerView(binding: ActivityShotsBinding, gridLayoutManager: StaggeredGridLayoutManager) {
+
+        val onScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    presenter.getNextShots()
+                }
             }
+        }
+
+        binding.shotsRecycler.apply {
+            layoutManager = gridLayoutManager
+            adapter = shotsAdapter
+            addOnScrollListener(onScrollListener)
+        }
+    }
+
 
     private fun initLayoutManager() = StaggeredGridLayoutManager(2, VERTICAL).apply {
         gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
     }
 
-    override fun loadShots(shots: List<Shot>) {
-        shotsAdapter.addItems(shots)
+    override fun loadShots(shots: List<Shot>?) {
+        shotsAdapter.addItems(shots ?: listOf())
+    }
+
+    override fun loadNextShots(shots: List<Shot>?) {
+        shotsAdapter.addNextItems(shots ?: listOf())
     }
 
     override fun showLoadingError() {
@@ -89,6 +108,10 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
                 addToBackStack(null)
             }.commit()
         }
+    }
+
+    override fun startLoading() {
+        swipeLayout?.isRefreshing = true
     }
 
     override fun finishLoading() {
