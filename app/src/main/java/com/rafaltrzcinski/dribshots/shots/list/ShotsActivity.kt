@@ -77,12 +77,12 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
 
     }
 
-    override fun loadShots(shots: List<Shot>?) {
-        shotsAdapter.addItems(shots ?: listOf())
+    override fun loadShots(shots: List<Shot>) {
+        shotsAdapter.addItems(shots)
     }
 
-    override fun loadNextShots(shots: List<Shot>?) {
-        shotsAdapter.addNextItems(shots ?: listOf())
+    override fun loadNextShots(shots: List<Shot>) {
+        shotsAdapter.addNextItems(shots)
     }
 
     override fun showLoadingError() {
@@ -103,7 +103,7 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
                         R.animator.shot_flip_left_in,
                         R.animator.shot_flip_left_out
                 )
-                replace(R.id.coordinator_layout, ShotDetailsFragment(shot))
+                replace(R.id.fragment_frame, ShotDetailsFragment(shot))
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 addToBackStack(null)
             }.commit()

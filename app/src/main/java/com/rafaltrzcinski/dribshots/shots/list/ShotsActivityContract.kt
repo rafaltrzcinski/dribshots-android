@@ -6,8 +6,8 @@ import okhttp3.Headers
 interface ShotsActivityContract {
 
     interface View {
-        fun loadShots(shots: List<Shot>?)
-        fun loadNextShots(shots: List<Shot>?)
+        fun loadShots(shots: List<Shot>)
+        fun loadNextShots(shots: List<Shot>)
         fun showLoadingError()
         fun attachShotDetails(shot: Shot)
         fun startLoading()

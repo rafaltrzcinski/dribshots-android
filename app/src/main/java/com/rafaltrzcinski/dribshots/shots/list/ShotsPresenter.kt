@@ -31,7 +31,7 @@ class ShotsPresenter(
                 .observeOn(observeOn)
                 .subscribe(
                         { result ->
-                            view?.loadShots(result.response()?.body())
+                            view?.loadShots(result.response()?.body()!!)
                             setCurrentNextLink(result.response()?.headers())
                         },
                         {
@@ -52,7 +52,7 @@ class ShotsPresenter(
                     .observeOn(observeOn)
                     .subscribe(
                             { result ->
-                                view?.loadNextShots(result.response()?.body())
+                                view?.loadNextShots(result.response()?.body()!!)
                                 setCurrentNextLink(result.response()?.headers())
                             },
                             {
