@@ -80,9 +80,8 @@ class ShotsPresenterSpec extends Specification {
         given:
         presenter.view = view
 
-        def headers = new Headers().newBuilder().add("link", link).build()
-
         and:
+        def headers = new Headers().newBuilder().add("link", link).build()
         def response = Response.success([shot1, shot2], headers)
         def result = Result.response(response)
 
@@ -100,10 +99,41 @@ class ShotsPresenterSpec extends Specification {
         presenter.currentNext == expectedLink
 
         where:
-        link                                                            | expectedLink
-        ""                                                              | ""
-        "some other type of link"                                       | ""
-        "some_next_link>; rel=\"next\", <some_prev_link>; rel=\"prev\"" | "some_next_link"
+        link                                                             | expectedLink
+        ""                                                               | ""
+        "some other type of link"                                        | ""
+        "<some_next_link>; rel=\"next\", <some_prev_link>; rel=\"prev\"" | "some_next_link"
+    }
+
+    def "should not load next shots when next link is empty"() {
+        given:
+        presenter.view = view
+
+        when:
+        presenter.getNextShots()
+
+        then:
+        0 * apiRequests.getShots(_)
+    }
+
+    def "should start loading on get next shots when next link is not empty"() {
+        given:
+        presenter.view = view
+        def nextLink = "some_next_link"
+        presenter.currentNext = nextLink
+
+        and:
+        apiRequests.getShots(nextLink) >> Flowable.error(new Exception())
+
+        when:
+        presenter.getNextShots()
+
+        and:
+        subscribeOn.triggerActions()
+        observeOn.triggerActions()
+
+        then:
+        1 * view.startLoading()
     }
 
     def "should show connection error dialog on error call and finish loading"() {
@@ -157,5 +187,16 @@ class ShotsPresenterSpec extends Specification {
 
         then:
         presenter.compositeDisposable.size() == 1
+    }
+
+    def "should detach shot details fragment"() {
+        given:
+        presenter.view = view
+
+        when:
+        presenter.hideShotDetails()
+
+        then:
+        1 * view.detachShotDetails()
     }
 }
