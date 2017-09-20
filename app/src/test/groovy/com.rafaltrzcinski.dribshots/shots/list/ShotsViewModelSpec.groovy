@@ -2,6 +2,8 @@ package com.rafaltrzcinski.dribshots.shots.list
 
 import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
+import com.rafaltrzcinski.dribshots.rest.model.Team
+import com.rafaltrzcinski.dribshots.rest.model.User
 import spock.lang.Specification
 
 class ShotsViewModelSpec extends Specification {
@@ -10,7 +12,7 @@ class ShotsViewModelSpec extends Specification {
 
     def presenter = Mock(ShotsActivityContract.Presenter)
     def images = new Images("hidpi", "normal", "teaser")
-    def shot = new Shot(1, "shot title", "shot description", images)
+    def shot = new Shot(1, "shot title", "shot description", images, new User(), new Team(), 0, 0, 0)
 
     def "setup"() {
         viewModel = new ShotViewModel(shot, presenter)
