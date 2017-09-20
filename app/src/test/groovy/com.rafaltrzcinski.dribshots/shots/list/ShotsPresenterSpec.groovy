@@ -3,6 +3,8 @@ package com.rafaltrzcinski.dribshots.shots.list
 import com.rafaltrzcinski.dribshots.rest.api.ApiRequests
 import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
+import com.rafaltrzcinski.dribshots.rest.model.Team
+import com.rafaltrzcinski.dribshots.rest.model.User
 import io.reactivex.Flowable
 import io.reactivex.schedulers.TestScheduler
 import okhttp3.Headers
@@ -22,8 +24,8 @@ class ShotsPresenterSpec extends Specification {
     def observeOn = new TestScheduler()
 
     def images = new Images("hidpi", "normal", "teaser")
-    def shot1 = new Shot(1, "title1", "description 1", images)
-    def shot2 = new Shot(2, "title2", "description 2", images)
+    def shot1 = new Shot(1, "title1", "description 1", images, new User(), new Team(), 0, 0, 0)
+    def shot2 = new Shot(2, "title2", "description 2", images, new User(), new Team(), 0, 0, 0)
 
 
     def "setup"() {
