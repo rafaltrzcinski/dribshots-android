@@ -21,7 +21,7 @@ interface ShotsActivityContract {
         fun getShots()
         fun getNextShots()
         fun openShotDetails(shot: Shot)
-        fun getNextUrlFromLinkHeader(linkHeader: String?): String
+        fun getNextUrlFromLinkHeader(linkHeader: String): String
         fun setCurrentNextLink(headers: Headers?)
         fun hideShotDetails()
     }

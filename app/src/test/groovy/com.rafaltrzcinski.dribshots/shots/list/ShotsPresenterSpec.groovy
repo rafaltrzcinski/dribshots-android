@@ -7,9 +7,11 @@ import com.rafaltrzcinski.dribshots.rest.model.Team
 import com.rafaltrzcinski.dribshots.rest.model.User
 import io.reactivex.Flowable
 import io.reactivex.schedulers.TestScheduler
+import okhttp3.Headers
 import retrofit2.Response
 import retrofit2.adapter.rxjava2.Result
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ShotsPresenterSpec extends Specification {
 
@@ -71,6 +73,37 @@ class ShotsPresenterSpec extends Specification {
 
         then:
         1 * view.loadShots([shot1, shot2])
+    }
+
+    @Unroll
+    def "should set proper next link from header"() {
+        given:
+        presenter.view = view
+
+        def headers = new Headers().newBuilder().add("link", link).build()
+
+        and:
+        def response = Response.success([shot1, shot2], headers)
+        def result = Result.response(response)
+
+        and:
+        apiRequests.getShots() >> Flowable.just(result)
+
+        when:
+        presenter.getShots()
+
+        and:
+        subscribeOn.triggerActions()
+        observeOn.triggerActions()
+
+        then:
+        presenter.currentNext == expectedLink
+
+        where:
+        link                                                            | expectedLink
+        ""                                                              | ""
+        "some other type of link"                                       | ""
+        "some_next_link>; rel=\"next\", <some_prev_link>; rel=\"prev\"" | "some_next_link"
     }
 
     def "should show connection error dialog on error call and finish loading"() {

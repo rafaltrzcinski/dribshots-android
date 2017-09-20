@@ -4,6 +4,7 @@ import com.rafaltrzcinski.dribshots.rest.model.Images
 import com.rafaltrzcinski.dribshots.rest.model.Shot
 import com.rafaltrzcinski.dribshots.rest.model.Team
 import com.rafaltrzcinski.dribshots.rest.model.User
+import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -17,9 +18,10 @@ class ShotDetailsViewModelSpec extends Specification {
             new Team(3, "team_name", "team_avatar_url"),
             150, 160, 170
     )
+    def presenter = Mock(ShotsActivityContract.Presenter)
 
     def "setup"() {
-        viewModel = new ShotDetailsViewModel(shot)
+        viewModel = new ShotDetailsViewModel(shot, presenter)
     }
 
     def "should get normal image as shot image"() {
@@ -40,7 +42,7 @@ class ShotDetailsViewModelSpec extends Specification {
                 new Team(3, "team_name", "team_avatar_url"),
                 150, 160, 170
         )
-        viewModel = new ShotDetailsViewModel(newShot)
+        viewModel = new ShotDetailsViewModel(newShot, presenter)
 
         expect:
         viewModel.description == expectedDescription
@@ -75,7 +77,7 @@ class ShotDetailsViewModelSpec extends Specification {
         )
 
         and:
-        viewModel = new ShotDetailsViewModel(newShot)
+        viewModel = new ShotDetailsViewModel(newShot, presenter)
 
         expect:
         viewModel.teamName == expectedTeamName
@@ -96,7 +98,7 @@ class ShotDetailsViewModelSpec extends Specification {
         )
 
         and:
-        viewModel = new ShotDetailsViewModel(newShot)
+        viewModel = new ShotDetailsViewModel(newShot, presenter)
 
         expect:
         viewModel.teamName == "No team"
@@ -115,7 +117,7 @@ class ShotDetailsViewModelSpec extends Specification {
         )
 
         and:
-        viewModel = new ShotDetailsViewModel(newShot)
+        viewModel = new ShotDetailsViewModel(newShot, presenter)
 
         expect:
         viewModel.teamAvatarUrl == expectedTeamAvatar
