@@ -75,12 +75,8 @@ class ShotsPresenter(
         currentNext = getNextUrlFromLinkHeader(linksHeader)
     }
 
-    override fun openShotDetails(shot: Shot) {
-        view?.attachShotDetails(shot)
-    }
-
-    override fun getNextUrlFromLinkHeader(linkHeader: String?): String {
-        if (linkHeader != null && linkHeader.isNotEmpty()) {
+    override fun getNextUrlFromLinkHeader(linkHeader: String): String {
+        if (linkHeader.isNotEmpty()) {
             val resultMap = mutableMapOf<String, String>()
 
             linkHeader
@@ -97,6 +93,10 @@ class ShotsPresenter(
         } else {
             return ""
         }
+    }
+
+    override fun openShotDetails(shot: Shot) {
+        view?.attachShotDetails(shot)
     }
 
     override fun hideShotDetails() {
