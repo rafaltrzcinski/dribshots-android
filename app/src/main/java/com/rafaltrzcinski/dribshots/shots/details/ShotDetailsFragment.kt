@@ -8,25 +8,33 @@ import android.view.View
 import android.view.ViewGroup
 import com.rafaltrzcinski.dribshots.R
 import com.rafaltrzcinski.dribshots.databinding.FragmentShotDetailsBinding
+import com.rafaltrzcinski.dribshots.di.Injector
 import com.rafaltrzcinski.dribshots.rest.model.Shot
-import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
 
-class ShotDetailsFragment() : Fragment() {
+class ShotDetailsFragment : Fragment() {
 
-    private var shot: Shot = Shot()
-    private var presenter: ShotsActivityContract.Presenter? = null
+    companion object {
+        private val SHOT_PARCEL = "SHOT_PARCEL"
 
-    constructor(shot: Shot, presenter: ShotsActivityContract.Presenter) : this() {
-        this.shot = shot
-        this.presenter = presenter
+        fun newInstance(shot: Shot): ShotDetailsFragment {
+            val instance = ShotDetailsFragment()
+            val args = Bundle()
+            args.putParcelable(SHOT_PARCEL, shot)
+            instance.arguments = args
+            return instance
+        }
     }
+
+    private var presenter = Injector.component.getShotsListPresenter()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = DataBindingUtil.inflate<FragmentShotDetailsBinding>(
                 inflater, R.layout.fragment_shot_details, container, false
         )
 
-        binding.viewModel = ShotDetailsViewModel(shot, presenter!!)
+        val shot: Shot = arguments.getParcelable(SHOT_PARCEL)
+
+        binding.viewModel = ShotDetailsViewModel(shot, presenter)
 
         return binding.root
     }

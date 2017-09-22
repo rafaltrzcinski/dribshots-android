@@ -2,6 +2,7 @@ package com.rafaltrzcinski.dribshots.shots.details
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import com.rafaltrzcinski.dribshots.di.Injector
 import com.rafaltrzcinski.dribshots.rest.model.Shot
 import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
 
