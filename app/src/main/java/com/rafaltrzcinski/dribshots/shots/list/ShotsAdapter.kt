@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.rafaltrzcinski.dribshots.R
 import com.rafaltrzcinski.dribshots.databinding.ItemShotBinding
+import com.rafaltrzcinski.dribshots.di.Injector
 import com.rafaltrzcinski.dribshots.rest.model.Shot
 import java.util.*
 
-class ShotsAdapter(private val presenter: ShotsActivityContract.Presenter) : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
+class ShotsAdapter : RecyclerView.Adapter<ShotsAdapter.ShotViewHolder>() {
 
     private var items: ArrayList<Shot> = arrayListOf()
+    private val presenter = Injector.component.getShotsListPresenter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShotViewHolder {
         val itemShotBinding = DataBindingUtil.inflate<ItemShotBinding>(

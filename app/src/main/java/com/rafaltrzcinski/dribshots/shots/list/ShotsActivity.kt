@@ -14,18 +14,11 @@ import com.rafaltrzcinski.dribshots.databinding.ActivityShotsBinding
 import com.rafaltrzcinski.dribshots.di.Injector
 import com.rafaltrzcinski.dribshots.rest.model.Shot
 import com.rafaltrzcinski.dribshots.shots.details.ShotDetailsFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
 
-    private val presenter = ShotsPresenter(
-            Injector.component.getApiRequests(),
-            Schedulers.io(),
-            AndroidSchedulers.mainThread()
-    )
-
-    private val shotsAdapter = ShotsAdapter(presenter)
+    private val presenter = Injector.component.getShotsListPresenter()
+    private val shotsAdapter = ShotsAdapter()
     private var swipeLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +96,7 @@ class ShotsActivity : AppCompatActivity(), ShotsActivityContract.View {
                         R.animator.shot_flip_left_in,
                         R.animator.shot_flip_left_out
                 )
-                replace(R.id.fragment_frame, ShotDetailsFragment(shot, presenter))
+                replace(R.id.fragment_frame, ShotDetailsFragment.newInstance(shot))
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 addToBackStack(null)
             }.commit()

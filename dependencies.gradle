@@ -22,6 +22,7 @@ ext {
     def rxVersion = '2.0.1'
     def dataBindingCompilerVersion = '2.3.0'
     def glideVersion = '3.7.0'
+    def paperParcelVersion = '2.0.4'
 
 
     def androidLibs = [
@@ -43,7 +44,10 @@ ext {
             okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: okHttpVersion],
             okhttpLoggingInterceptor: [group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: okHttpVersion],
             rxandroid               : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxVersion],
-            glide                   : [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion]
+            glide                   : [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion],
+            paperParcel             : [group: 'nz.bradcampbell', name: 'paperparcel', version: paperParcelVersion],
+            paperParcelKotlin       : [group: 'nz.bradcampbell', name: 'paperparcel-kotlin', version: paperParcelVersion],
+            paperParcelCompiler     : [group: 'nz.bradcampbell', name: 'paperparcel-compiler', version: paperParcelVersion]
     ]
 
     def testLibs = [
@@ -75,7 +79,11 @@ ext {
             [configuration: 'compile', dependency: libs.okhttpLoggingInterceptor],
             [configuration: 'compile', dependency: libs.rxandroid],
             [configuration: 'compile', dependency: libs.glide],
+            [configuration: 'compile', dependency: libs.paperParcel],
+            [configuration: 'compile', dependency: libs.paperParcelKotlin],
+            [configuration: 'compile', dependency: libs.glide],
             [configuration: 'kapt', dependency: libs.daggerCompiler],
+            [configuration: 'kapt', dependency: libs.paperParcelCompiler],
 
             [configuration: 'testCompile', dependency: testLibs.junit],
             [configuration: 'testCompile', dependency: testLibs.groovy],
