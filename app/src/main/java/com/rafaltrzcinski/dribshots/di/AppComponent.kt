@@ -6,6 +6,7 @@ import com.rafaltrzcinski.dribshots.controllers.UserController
 import com.rafaltrzcinski.dribshots.rest.api.ApiRequests
 import com.rafaltrzcinski.dribshots.shots.list.ShotsActivityContract
 import dagger.Component
+import okhttp3.OkHttpClient
 
 @AppScope
 @Component(modules = arrayOf(AppModule::class, AndroidModule::class))
@@ -20,4 +21,6 @@ interface AppComponent {
     fun getUserController(): UserController
 
     fun getShotsListPresenter(): ShotsActivityContract.Presenter
+
+    fun getOkHttpClient(): OkHttpClient
 }

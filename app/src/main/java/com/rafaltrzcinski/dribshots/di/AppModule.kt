@@ -30,17 +30,19 @@ class AppModule(private val app: Application) {
 
     @Provides
     @AppScope
-    fun provideApiRequests(): ApiRequests {
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-
+    fun provideOkHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val requestInterceptor = RequestInterceptor()
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(loggingInterceptor)
             addInterceptor(requestInterceptor)
-        }.build()
+        }
+        return okHttpClient.build()
+    }
 
+    @Provides
+    @AppScope
+    fun provideApiRequests(okHttpClient: OkHttpClient): ApiRequests {
         val retrofit = Retrofit.Builder().apply {
             client(okHttpClient)
             baseUrl(app.getString(R.string.base_url))
