@@ -16,7 +16,7 @@ ext {
     def spockVersion = '1.1-groovy-2.4'
     def objenesisVersion = '2.2'
     def nodepVersion = '3.2.2'
-    def espressoVersion = '2.2.2'
+    def espressoVersion = '3.0.1'
     def multidexVersion = '1.0.1'
     def okHttpVersion = '3.9.0'
     def rxVersion = '2.0.1'
@@ -51,17 +51,28 @@ ext {
     ]
 
     def testLibs = [
-            junit        : [group: 'junit', name: 'junit', version: junitVersion],
-            groovy       : [group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion, classifier: 'grooid'],
-            spock        : [group: 'org.spockframework', name: 'spock-core', version: spockVersion],
-            objenesis    : [group: 'org.objenesis', name: 'objenesis', version: objenesisVersion],
-            nodep        : [group: 'cglib', name: 'cglib-nodep', version: nodepVersion],
-            esspressoCore: [group: 'com.android.support.test.espresso', name: 'espresso-core', version: espressoVersion]
+            junit          : [group: 'junit', name: 'junit', version: junitVersion],
+            groovy         : [group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion, classifier: 'grooid'],
+            spock          : [group: 'org.spockframework', name: 'spock-core', version: spockVersion],
+            objenesis      : [group: 'org.objenesis', name: 'objenesis', version: objenesisVersion],
+            nodep          : [group: 'cglib', name: 'cglib-nodep', version: nodepVersion],
+            espressoCore   : [group: 'com.android.support.test.espresso', name: 'espresso-core', version: espressoVersion],
+            espressoContrib: [group: 'com.android.support.test.espresso', name: 'espresso-contrib', version: espressoVersion],
+            espressoIdlinig: [group: 'com.android.support.test.espresso', name: 'espresso-idling-resource', version: espressoVersion]
     ]
 
     def supportAnnotationsExclude = {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
+    def espressoSupportExcludes = {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+
     appModuleDependencies = [
             [configuration: 'compile', dependency: androidLibs.appCompat],
             [configuration: 'compile', dependency: androidLibs.constraintLayout],
@@ -91,7 +102,9 @@ ext {
             [configuration: 'testCompile', dependency: testLibs.objenesis],
             [configuration: 'testCompile', dependency: testLibs.nodep],
 
-            [configuration: 'androidTestCompile', dependency: testLibs.esspressoCore, options: supportAnnotationsExclude]
+            [configuration: 'compile', dependency: testLibs.espressoIdlinig],
+            [configuration: 'androidTestCompile', dependency: testLibs.espressoCore, options: supportAnnotationsExclude],
+            [configuration: 'androidTestCompile', dependency: testLibs.espressoContrib, options: espressoSupportExcludes]
     ]
 
 
